@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<!--Single file test-->
+<!-- bundle:js single.js-->
+<script src="js/lib1.js"></script>
+<!-- /bundle -->
+
+<!--Multiple file test-->
+<!-- bundle:js multiple.js-->
+<script src="js/lib2.js"></script>
+<script src="js/lib3.js"></script>
+<script src="js/lib4.js"></script>
+<!-- /bundle -->
+
+<!--Level up directory test-->
+<!-- bundle:js ../level-up.js-->
+<script src="js/lib1.js"></script>
+<!-- /bundle -->
+
+<!--Level in directory test-->
+<!-- bundle:js app/level-down.js-->
+<script src="js/lib1.js"></script>
+<!-- /bundle -->
+</body>
+</html>

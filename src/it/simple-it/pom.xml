@@ -19,12 +19,37 @@
         <groupId>@project.groupId@</groupId>
         <artifactId>@project.artifactId@</artifactId>
         <version>@project.version@</version>
+
         <executions>
           <execution>
-            <phase>validate</phase>
+            <id>empty</id>
             <goals>
               <goal>process</goal>
             </goals>
+            <configuration>
+              <inputFilePah>${project.basedir}/src/main/resources/empty.html</inputFilePah>
+              <outputFilePath>${project.build.outputDirectory}/empty.html</outputFilePath>
+            </configuration>
+          </execution>
+          <execution>
+            <id>remove</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <inputFilePah>${project.basedir}/src/main/resources/remove-processor.html</inputFilePah>
+              <outputFilePath>${project.build.outputDirectory}/remove-processor.html</outputFilePath>
+            </configuration>
+          </execution>
+          <execution>
+            <id>js</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <inputFilePah>${project.basedir}/src/main/resources/js-processor.html</inputFilePah>
+              <outputFilePath>${project.build.outputDirectory}/js-processor.html</outputFilePath>
+            </configuration>
           </execution>
         </executions>
       </plugin>

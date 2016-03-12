@@ -1,7 +1,7 @@
 package io.github.kospiotr.bundler
 
+import groovy.util.logging.Log
 import org.apache.maven.plugin.AbstractMojo
-import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
@@ -9,41 +9,36 @@ import org.apache.maven.plugins.annotations.Parameter
 /**
  * Goal which touches a timestamp file.
  */
+@Log
 @Mojo(name = "process", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
-class ProcessMojo extends AbstractMojo {
+public class ProcessMojo extends AbstractMojo {
+
     /**
-     * Location of the file.
+     * Input file.
      */
-    @Parameter(defaultValue = '${project.build.directory}', property = "outputDir", required = true)
-    def File outputDirectory;
+    @Parameter(property = "inputFile", required = true)
+    File inputFilePah;
 
-    def void execute() {
-        File f = outputDirectory;
+    /**
+     * Location of the output file.
+     */
+    @Parameter(property = "outputFilePath", required = true)
+    File outputFilePath;
 
-        if (!f.exists()) {
-            f.mkdirs();
-        }
+    public ProcessMojo() {
+    }
 
-        File touch = new File(f, "touch.txt");
+    ProcessMojo(File inputFilePah, File outputFilePath) {
+        this.inputFilePah = inputFilePah
+        this.outputFilePath = outputFilePath
+    }
 
-        FileWriter w = null;
-        try {
-            w = new FileWriter(touch);
+    public void execute() {
+        Tokenizer tokenizer = new Tokenizer(this);
+        tokenizer.registerProcessor(new RemoveTagProcessor());
+        tokenizer.registerProcessor(new JsTagProcessor());
 
-            w.write("touch.txt");
-        }
-        catch (IOException e) {
-            throw new MojoExecutionException("Error creating file " + touch, e);
-        }
-        finally {
-            if (w != null) {
-                try {
-                    w.close();
-                }
-                catch (IOException e) {
-                    // ignore
-                }
-            }
-        }
+        FileProcessor fileProcessor = new FileProcessor(tokenizer);
+        fileProcessor.process(inputFilePah.toPath(), outputFilePath.toPath());
     }
 }
