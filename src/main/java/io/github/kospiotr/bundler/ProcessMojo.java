@@ -8,7 +8,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import java.io.File;
 
 /**
- * Goal which touches a timestamp file.
+ * Generate package bundles.
  */
 @Mojo(name = "process", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
 public class ProcessMojo extends AbstractMojo {
@@ -22,7 +22,7 @@ public class ProcessMojo extends AbstractMojo {
     /**
      * Location of the output file.
      */
-    @Parameter(property = "outputFilePath", required = true)
+    @Parameter(property = "outputFile", required = true)
     File outputFilePath;
 
 
