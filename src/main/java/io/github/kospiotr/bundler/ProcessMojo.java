@@ -1,15 +1,15 @@
-package io.github.kospiotr.bundler
+package io.github.kospiotr.bundler;
 
-import groovy.util.logging.Log
-import org.apache.maven.plugin.AbstractMojo
-import org.apache.maven.plugins.annotations.LifecyclePhase
-import org.apache.maven.plugins.annotations.Mojo
-import org.apache.maven.plugins.annotations.Parameter
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+
+import java.io.File;
 
 /**
  * Goal which touches a timestamp file.
  */
-@Log
 @Mojo(name = "process", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
 public class ProcessMojo extends AbstractMojo {
 
@@ -51,9 +51,9 @@ public class ProcessMojo extends AbstractMojo {
     }
 
     ProcessMojo(File inputFilePah, File outputFilePath) {
-        this.inputFilePah = inputFilePah
-        this.outputFilePath = outputFilePath
-        this.hashingAlgorithm = "MD5"
+        this.inputFilePah = inputFilePah;
+        this.outputFilePath = outputFilePath;
+        this.hashingAlgorithm = "MD5";
     }
 
     public void execute() {
@@ -64,5 +64,33 @@ public class ProcessMojo extends AbstractMojo {
 
         FileProcessor fileProcessor = new FileProcessor(tokenizer);
         fileProcessor.process(inputFilePah.toPath(), outputFilePath.toPath());
+    }
+
+    public File getInputFilePah() {
+        return inputFilePah;
+    }
+
+    public File getOutputFilePath() {
+        return outputFilePath;
+    }
+
+    public String getHashingAlgorithm() {
+        return hashingAlgorithm;
+    }
+
+    public boolean isMunge() {
+        return munge;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
+    }
+
+    public boolean isPreserveAllSemiColons() {
+        return preserveAllSemiColons;
+    }
+
+    public boolean isDisableOptimizations() {
+        return disableOptimizations;
     }
 }

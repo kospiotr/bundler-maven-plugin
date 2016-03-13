@@ -33,10 +33,10 @@ public class JsTagProcessor extends RegexBasedTagProcessor {
     @Override
     protected String postProcessOutputFileContent(String content) {
         return resourceOptimizer.optimizeJs(content,
-                getMojo().getMunge(),
-                getMojo().getVerbose(),
-                getMojo().getPreserveAllSemiColons(),
-                getMojo().getDisableOptimizations()
+                getMojo().isMunge(),
+                getMojo().isVerbose(),
+                getMojo().isPreserveAllSemiColons(),
+                getMojo().isDisableOptimizations()
         );
     }
 
