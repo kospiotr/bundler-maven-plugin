@@ -10,7 +10,11 @@
     <name>bundler-maven-plugin Maven Plugin</name>
 
     <url>https://github.com/kospiotr/bundler-maven-plugin</url>
-
+    <scm>
+        <connection>scm:git@github.com:kospiotr/bundler-maven-plugin.git</connection>
+        <url>scm:git@github.com:kospiotr/bundler-maven-plugin.git</url>
+        <developerConnection>scm:git@github.com:kospiotr/bundler-maven-plugin.git</developerConnection>
+    </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -90,6 +94,11 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0</version>
             </plugin>
         </plugins>
     </build>
