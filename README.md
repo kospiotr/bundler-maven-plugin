@@ -63,3 +63,14 @@ After running plugin the result will be outputted to ```${project.build.outputDi
 </body>
 </html>
 ```
+
+Bundled files are automatically concatenated and minimized with http://yui.github.io/yuicompressor/
+
+#Configuration properties
+- inputFilePah
+- outputFilePath
+- hashingAlgorithm
+- munge
+- verbose
+- preserveAllSemiColons
+- disableOptimizations
