@@ -51,6 +51,16 @@
               <outputFilePath>${project.build.outputDirectory}/js-processor.html</outputFilePath>
             </configuration>
           </execution>
+          <execution>
+            <id>css</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <inputFilePah>${project.basedir}/src/main/resources/css-processor.html</inputFilePah>
+              <outputFilePath>${project.build.outputDirectory}/css-processor.html</outputFilePath>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

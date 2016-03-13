@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<!--Single file test-->
+<!-- bundle:css single.css-->
+<link href="css/lib1.css"/>
+<!-- /bundle -->
+
+<!--Single file test prefix attribute-->
+<!-- bundle:css single-prefix.css-->
+<link rel="stylesheet" href="css/lib1.css" />
+<!-- /bundle -->
+
+<!--Single file test suffix attribute-->
+<!-- bundle:css single-suffix.css-->
+<link href="css/lib1.css" rel="stylesheet" />
+<!-- /bundle -->
+
+<!--Multiple file test-->
+<!-- bundle:css multiple.css-->
+<link href="css/lib1.css" rel="stylesheet" />
+<link href="css/lib2.css" rel="stylesheet" />
+<link href="css/lib3.css" rel="stylesheet" />
+<!-- /bundle -->
+
+<!--Level up directory test-->
+<!-- bundle:css ../level-up.css-->
+<link href="css/lib1.css"/>
+<!-- /bundle -->
+
+<!--Level in directory test-->
+<!-- bundle:css app/level-down.css-->
+<link href="css/lib1.css"/>
+<!-- /bundle -->
+
+<!--Hash computation test-->
+<!-- bundle:css hash-#hash#.css-->
+<link href="css/lib1.css"/>
+<!-- /bundle -->
+</body>
+</html>

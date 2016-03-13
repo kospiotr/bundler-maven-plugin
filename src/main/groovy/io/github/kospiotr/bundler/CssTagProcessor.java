@@ -15,34 +15,29 @@ package io.github.kospiotr.bundler;
  * }
  * </pre>
  */
-public class JsTagProcessor extends RegexBasedTagProcessor {
+public class CssTagProcessor extends RegexBasedTagProcessor {
 
-    private static final String TAG_REGEX = "\\Q<script\\E\\s*?src\\=\"(.*?)\"\\s*?\\>.*?\\Q</script>\\E";
+    private static final String TAG_REGEX = "\\Q<link\\E.*?href\\=\"(.*?)\".*?\\>";
     private ResourceOptimizer resourceOptimizer = new ResourceOptimizer();
 
     @Override
     public String getType() {
-        return "js";
+        return "css";
     }
+
 
     @Override
     public String createBundledTag(String fileName) {
-        return "<script src=\"" + fileName + "\"></script>";
+        return "<link rel=\"stylesheet\" href=\"" + fileName + "\" />";
     }
 
     @Override
     protected String postProcessOutputFileContent(String content) {
-        return resourceOptimizer.optimizeJs(content,
-                getMojo().getMunge(),
-                getMojo().getVerbose(),
-                getMojo().getPreserveAllSemiColons(),
-                getMojo().getDisableOptimizations()
-        );
+        return resourceOptimizer.optimizeCss(content);
     }
 
     @Override
     protected String tagRegex() {
         return TAG_REGEX;
     }
-
 }

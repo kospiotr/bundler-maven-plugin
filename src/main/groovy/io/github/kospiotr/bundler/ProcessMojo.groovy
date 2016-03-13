@@ -25,18 +25,42 @@ public class ProcessMojo extends AbstractMojo {
     @Parameter(property = "outputFilePath", required = true)
     File outputFilePath;
 
+
+    /**
+     * Hashing Algrithm. Possible values for shipped providers:
+     * MD5,
+     * SHA-1,
+     * SHA-256
+     */
+    @Parameter(defaultValue = "MD5", property = "hashingAlgorithm", required = true)
+    String hashingAlgorithm;
+
+    @Parameter(defaultValue = "true", property = "munge", required = true)
+    boolean munge;
+
+    @Parameter(defaultValue = "false", property = "verbose", required = true)
+    boolean verbose;
+
+    @Parameter(defaultValue = "true", property = "preserveAllSemiColons", required = true)
+    boolean preserveAllSemiColons;
+
+    @Parameter(defaultValue = "true", property = "disableOptimizations", required = true)
+    boolean disableOptimizations;
+
     public ProcessMojo() {
     }
 
     ProcessMojo(File inputFilePah, File outputFilePath) {
         this.inputFilePah = inputFilePah
         this.outputFilePath = outputFilePath
+        this.hashingAlgorithm = "MD5"
     }
 
     public void execute() {
         Tokenizer tokenizer = new Tokenizer(this);
         tokenizer.registerProcessor(new RemoveTagProcessor());
         tokenizer.registerProcessor(new JsTagProcessor());
+        tokenizer.registerProcessor(new CssTagProcessor());
 
         FileProcessor fileProcessor = new FileProcessor(tokenizer);
         fileProcessor.process(inputFilePah.toPath(), outputFilePath.toPath());
