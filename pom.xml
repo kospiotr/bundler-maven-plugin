@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.kospiotr</groupId>
@@ -15,7 +16,6 @@
         <developerConnection>scm:git:git@github.com:kospiotr/bundler-maven-plugin.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/kospiotr/bundler-maven-plugin/issues</url>
@@ -88,7 +88,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <!--<version>3.4</version>-->
                 <configuration>
                     <goalPrefix>bundler-maven-plugin</goalPrefix>
                     <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
@@ -133,6 +132,43 @@
                         <configuration>
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!--
+                This goes to settings.xml
+                <servers>
+                    <server>
+                        <id>github</id>
+                        <username>GITHUB_USERNAME</username>
+                        <password>GITHUB_PASSWORD</password>
+                    </server>
+                </servers>
+                <profiles>
+                    <profile>
+                        <id>github</id>
+                        <activation>
+                            <activeByDefault>true</activeByDefault>
+                        </activation>
+                        <properties>
+                            <github.global.server>github</github.global.server>
+                        </properties>
+                    </profile>
+                </profiles>
+                -->
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Creating site for ${project.version}</message>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site</phase>
                     </execution>
                 </executions>
             </plugin>
