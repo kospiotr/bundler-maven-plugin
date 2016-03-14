@@ -1,4 +1,4 @@
-package io.github.kospiotr.bundler;
+package com.github.kospiotr.bundler;
 
 public class RemoveTagProcessor extends TagProcessor{
 

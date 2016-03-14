@@ -1,4 +1,4 @@
-package io.github.kospiotr.bundler;
+package com.github.kospiotr.bundler;
 
 import org.hamcrest.Description;
 import org.mockito.ArgumentMatcher;

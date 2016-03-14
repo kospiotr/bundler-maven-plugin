@@ -1,4 +1,4 @@
-package io.github.kospiotr.bundler;
+package com.github.kospiotr.bundler;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

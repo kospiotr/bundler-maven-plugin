@@ -1,4 +1,4 @@
-package io.github.kospiotr.bundler;
+package com.github.kospiotr.bundler;
 
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;

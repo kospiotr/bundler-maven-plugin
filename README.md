@@ -10,7 +10,7 @@ Configure plugin:
 
 ```xml
       <plugin>
-        <groupId>io.github.kospiotr</groupId>
+        <groupId>com.github.kospiotr</groupId>
         <artifactId>bundler-maven-plugin</artifactId>
         <version>1.0</version>
         <executions>
