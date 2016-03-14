@@ -4,6 +4,19 @@ Maven plugin for creating bundle package of js and css files in Maven project.
 
 Inspired by: https://github.com/dciccale/grunt-processhtml
 
+# Goals
+
+- ```process``` - analyse input html file for special comment block, create bundle resource packages and outputs html file with bundled blocks
+
+#Configuration properties
+- inputFilePah
+- outputFilePath
+- hashingAlgorithm
+- munge
+- verbose
+- preserveAllSemiColons
+- disableOptimizations
+
 # Usage
 
 Configure plugin:
@@ -65,12 +78,3 @@ After running plugin the result will be outputted to ```${project.build.outputDi
 ```
 
 Bundled files are automatically concatenated and minimized with http://yui.github.io/yuicompressor/
-
-#Configuration properties
-- inputFilePah
-- outputFilePath
-- hashingAlgorithm
-- munge
-- verbose
-- preserveAllSemiColons
-- disableOptimizations
