@@ -3,7 +3,7 @@
 
     <groupId>com.github.kospiotr</groupId>
     <artifactId>bundler-maven-plugin</artifactId>
-    <version>1.7</version>
+    <version>1.8-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>bundler-maven-plugin Maven Plugin</name>
@@ -14,7 +14,7 @@
         <connection>scm:git:git@github.com:kospiotr/bundler-maven-plugin.git</connection>
         <url>scm:git:git@github.com:kospiotr/bundler-maven-plugin.git</url>
         <developerConnection>scm:git:git@github.com:kospiotr/bundler-maven-plugin.git</developerConnection>
-        <tag>bundler-maven-plugin-1.7</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
