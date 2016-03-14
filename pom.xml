@@ -7,6 +7,7 @@
     <packaging>maven-plugin</packaging>
 
     <name>bundler-maven-plugin Maven Plugin</name>
+    <description>Maven plugin for creating bundle package of js and css files in Maven project.</description>
 
     <url>https://github.com/kospiotr/bundler-maven-plugin</url>
     <scm>
@@ -15,12 +16,14 @@
         <developerConnection>scm:git:git@github.com:kospiotr/bundler-maven-plugin.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/kospiotr/bundler-maven-plugin/issues</url>
     </issueManagement>
 
     <inceptionYear>2016</inceptionYear>
+
     <licenses>
         <license>
             <name>Apache 2.0</name>
