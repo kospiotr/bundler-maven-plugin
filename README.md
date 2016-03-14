@@ -6,7 +6,7 @@ Inspired by: https://github.com/dciccale/grunt-processhtml
 
 # Goals
 
-- ```process``` - analyse input html file for special comment block, create bundle resource packages and outputs html file with bundled blocks
+- ```process``` - analyse input html file for special comment block, create bundle resource packages and outputs html file with bundled blocks. Bundled resources are concatenated, minimized, optimized and if requested checksum is computed and used with bundled filename. (see example below)
 
 #Configuration properties
 - inputFilePah
