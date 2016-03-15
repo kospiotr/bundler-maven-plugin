@@ -1,13 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.kospiotr</groupId>
     <artifactId>bundler-maven-plugin</artifactId>
-<<<<<<< HEAD
     <version>1.7-SNAPSHOT</version>
-=======
-    <version>1.9</version>
->>>>>>> 453285b17a7d90c3563d55cffcbd137ec3233275
     <packaging>maven-plugin</packaging>
 
     <name>bundler-maven-plugin Maven Plugin</name>
