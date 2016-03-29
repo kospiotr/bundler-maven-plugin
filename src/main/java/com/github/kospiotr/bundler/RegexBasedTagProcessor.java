@@ -76,9 +76,14 @@ public abstract class RegexBasedTagProcessor extends TagProcessor {
             String src = m.group(1);
             Path tagSrcPath = parentSrcPath.resolve(src);
             String scrContent = resourceAccess.read(tagSrcPath);
+            scrContent = preprocessTagContent(scrContent, src);
             concatContent.append(scrContent).append("\n");
         }
         return concatContent.toString();
+    }
+
+    protected String preprocessTagContent(String scrContent, String src) {
+        return scrContent;
     }
 
     private String computeHash(String content) {

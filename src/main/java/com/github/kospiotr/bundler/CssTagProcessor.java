@@ -1,5 +1,7 @@
 package com.github.kospiotr.bundler;
 
+import java.io.File;
+
 /**
  * Usage:
  * <pre>{@code
@@ -39,5 +41,11 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
     @Override
     protected String tagRegex() {
         return TAG_REGEX;
+    }
+
+    @Override
+    protected String preprocessTagContent(String scrContent, String src) {
+        String srcParentPath = new File(src).getParent();
+        return scrContent.replaceAll("url\\(", "url(" + srcParentPath);
     }
 }

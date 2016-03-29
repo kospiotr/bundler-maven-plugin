@@ -16,6 +16,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CssTagProcessorTest {
@@ -61,6 +62,7 @@ public class CssTagProcessorTest {
 
     @Test
     public void shouldProcessSingleTag() throws Exception {
+        when(resourceAccess.read(any(Path.class))).thenReturn("");
         Tag jsTag = createCssTag("<link rel=\"stylesheet\" href=\"my/lib/path/lib.css\" />", "app.css");
         String result = cssTagProcessor.process(jsTag);
 
@@ -72,6 +74,7 @@ public class CssTagProcessorTest {
 
     @Test
     public void shouldProcessMultipleInlineTags() throws Exception {
+        when(resourceAccess.read(any(Path.class))).thenReturn("");
         Tag jsTag = createCssTag("<link href=\"my/lib/path/lib1.css\" /><link href=\"my/lib/path/lib2.css\" />", "app.css");
         String result = cssTagProcessor.process(jsTag);
 
@@ -84,12 +87,27 @@ public class CssTagProcessorTest {
 
     @Test
     public void shouldProcessMultipleMultiLineTags() throws Exception {
+        when(resourceAccess.read(any(Path.class))).thenReturn("");
         Tag jsTag = createCssTag("<link href=\"my/lib/path/lib1.css\" />\n<!-- sample comment -->\n<link href=\"my/lib/path/lib2.css\" />", "app.css");
         String result = cssTagProcessor.process(jsTag);
 
         assertThat(result).isEqualTo("<link rel=\"stylesheet\" href=\"app.css\" />");
         verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib1.css")));
         verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib2.css")));
+        verify(resourceAccess).write(argThat(new PathHamcrestMatcher("glob:**/app.css")), any(String.class));
+        verify(resourceOptimizer).optimizeCss(any(String.class));
+    }
+
+    @Test
+    public void shouldNormalizePathsWhenProcessingFilesFromDifferentPathLevels() throws Exception {
+        when(resourceAccess.read(argThat(new PathHamcrestMatcher("glob:**/lib1.css")))).thenReturn("");
+        Tag jsTag = createCssTag("<link href=\"my/lib/lib1.css\" /><link href=\"my/lib2.css\" /><link href=\"my/lib/path/lib3.css\" />", "app.css");
+        String result = cssTagProcessor.process(jsTag);
+
+        assertThat(result).isEqualTo("<link rel=\"stylesheet\" href=\"app.css\" />");
+        verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib1.css")));
+        verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib2.css")));
+        verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib3.css")));
         verify(resourceAccess).write(argThat(new PathHamcrestMatcher("glob:**/app.css")), any(String.class));
         verify(resourceOptimizer).optimizeCss(any(String.class));
     }
