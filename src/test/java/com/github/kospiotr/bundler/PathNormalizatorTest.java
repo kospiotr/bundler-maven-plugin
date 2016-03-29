@@ -145,7 +145,7 @@ public class PathNormalizatorTest {
 
     @Test
     public void test() throws Exception {
-        assertThat(pathNormalizator.normalize(baseBefore, baseAfter, url, currentFile)).isEqualTo(result);
+        assertThat(pathNormalizator.relativize(baseBefore, baseAfter, url, currentFile)).isEqualTo(result);
     }
 
 }

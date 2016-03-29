@@ -82,8 +82,8 @@ public abstract class RegexBasedTagProcessor extends TagProcessor {
         return concatContent.toString();
     }
 
-    protected String preprocessTagContent(String scrContent, String src) {
-        return scrContent;
+    protected String preprocessTagContent(String srcContent, String src) {
+        return srcContent;
     }
 
     private String computeHash(String content) {

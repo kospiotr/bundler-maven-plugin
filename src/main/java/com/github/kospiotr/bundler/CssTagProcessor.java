@@ -1,6 +1,7 @@
 package com.github.kospiotr.bundler;
 
-import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Usage:
@@ -21,6 +22,7 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
 
     private static final String TAG_REGEX = "\\Q<link\\E.*?href\\=\"(.*?)\".*?\\>";
     private ResourceOptimizer resourceOptimizer = new ResourceOptimizer();
+    private PathNormalizator pathNormalizator = new PathNormalizator();
 
     @Override
     public String getType() {
@@ -44,8 +46,31 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
     }
 
     @Override
-    protected String preprocessTagContent(String scrContent, String src) {
-        String srcParentPath = new File(src).getParent();
-        return scrContent.replaceAll("url\\(", "url(" + srcParentPath);
+    protected String preprocessTagContent(String content, String srcPath) {
+        StringBuilder sb = new StringBuilder();
+
+        Pattern urlPattern = Pattern.compile("url\\([\\s'\"]*(.*?)[\\s'\"]*\\)", Pattern.DOTALL);
+        Matcher m = urlPattern.matcher(content);
+        int previousIndex = 0;
+        while (m.find(previousIndex)) {
+            String url = m.group(1);
+            sb.append(content.substring(previousIndex, m.start()));
+            String relativizedUrl = isUrlAbsolute(url) ?
+                    url :
+                    pathNormalizator.relativize(
+                            getMojo().getInputFilePah().getAbsolutePath(),
+                            getMojo().getOutputFilePath().getAbsolutePath(),
+                            srcPath,
+                            url
+                    );
+            sb.append("url('").append(relativizedUrl).append("')");
+            previousIndex = m.end();
+        }
+        sb.append(content.substring(previousIndex, content.length()));
+        return sb.toString();
+    }
+
+    private boolean isUrlAbsolute(String url) {
+        return url.startsWith("/");
     }
 }

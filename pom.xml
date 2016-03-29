@@ -7,7 +7,7 @@
     <version>1.7-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
-    <name>bundler-maven-plugin Maven Plugin</name>
+    <name>bundler-maven-plugin</name>
     <description>Maven plugin for creating bundle package of js and css files in Maven project.</description>
 
     <url>https://github.com/kospiotr/bundler-maven-plugin</url>
@@ -102,6 +102,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.2</version>
                 <configuration>
                     <goalPrefix>bundler-maven-plugin</goalPrefix>
                     <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>

@@ -12,11 +12,12 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CssTagProcessorTest {
@@ -100,15 +101,33 @@ public class CssTagProcessorTest {
 
     @Test
     public void shouldNormalizePathsWhenProcessingFilesFromDifferentPathLevels() throws Exception {
-        when(resourceAccess.read(argThat(new PathHamcrestMatcher("glob:**/lib1.css")))).thenReturn("");
-        Tag jsTag = createCssTag("<link href=\"my/lib/lib1.css\" /><link href=\"my/lib2.css\" /><link href=\"my/lib/path/lib3.css\" />", "app.css");
+        when(resourceAccess.read(argThat(new PathHamcrestMatcher("glob:**/lib1.css"))))
+                .thenReturn("h1 {background-image: url(\"paper1.gif\");}\n" +
+                        "h2 {background-image: url(../paper2.gif);}\n" +
+                        "h3 {background-image: url('app/paper3.gif');}");
+        when(resourceAccess.read(argThat(new PathHamcrestMatcher("glob:**/lib2.css"))))
+                .thenReturn("h4 {background-image: url( \"paper4.gif\" );}\n" +
+                        "h5 {background-image: url( ../paper5.gif);}\n" +
+                        "h6 {background-image: url('app/paper6.gif' );}");
+        when(resourceAccess.read(argThat(new PathHamcrestMatcher("glob:**/lib3.css"))))
+                .thenReturn("h7 {background-image: url('/paper7.gif');}");
+        when(resourceOptimizer.optimizeCss(anyString())).then(returnsFirstArg());
+
+        Tag jsTag = createCssTag("<link href=\"../lib1.css\" /><link href=\"lib2.css\" /><link href=\"lib/lib3.css\" />", "app.css");
         String result = cssTagProcessor.process(jsTag);
 
         assertThat(result).isEqualTo("<link rel=\"stylesheet\" href=\"app.css\" />");
         verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib1.css")));
         verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib2.css")));
         verify(resourceAccess).read(argThat(new PathHamcrestMatcher("glob:**/lib3.css")));
-        verify(resourceAccess).write(argThat(new PathHamcrestMatcher("glob:**/app.css")), any(String.class));
+        verify(resourceAccess).write(argThat(new PathHamcrestMatcher("glob:**/app.css")), eq(
+                "h1 {background-image: url('../paper1.gif');}\n" +
+                        "h2 {background-image: url('../../paper2.gif');}\n" +
+                        "h3 {background-image: url('../app/paper3.gif');}\n" +
+                        "h4 {background-image: url('paper4.gif');}\n" +
+                        "h5 {background-image: url('../paper5.gif');}\n" +
+                        "h6 {background-image: url('app/paper6.gif');}\n" +
+                        "h7 {background-image: url('/paper7.gif');}\n"));
         verify(resourceOptimizer).optimizeCss(any(String.class));
     }
 
