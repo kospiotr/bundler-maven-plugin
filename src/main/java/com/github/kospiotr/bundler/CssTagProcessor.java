@@ -46,22 +46,20 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
     }
 
     @Override
-    protected String preprocessTagContent(String content, String srcPath) {
+    protected String preprocessTagContent(String targetCssPath, String content, String sourceCssPath) {
         StringBuilder sb = new StringBuilder();
 
         Pattern urlPattern = Pattern.compile("url\\([\\s'\"]*(.*?)[\\s'\"]*\\)", Pattern.DOTALL);
         Matcher m = urlPattern.matcher(content);
         int previousIndex = 0;
         while (m.find(previousIndex)) {
-            String url = m.group(1);
+            String resourcePath = m.group(1);
             sb.append(content.substring(previousIndex, m.start()));
-            String relativizedUrl = isUrlAbsolute(url) ?
-                    url :
+            String relativizedUrl = isUrlAbsolute(resourcePath) ?
+                    resourcePath :
                     pathNormalizator.relativize(
-                            getMojo().getInputFilePah().getAbsolutePath(),
-                            getMojo().getOutputFilePath().getAbsolutePath(),
-                            srcPath,
-                            url
+                            getMojo().getInputFilePah().getAbsolutePath(), sourceCssPath, resourcePath,
+                            getMojo().getOutputFilePath().getAbsolutePath(), targetCssPath
                     );
             sb.append("url('").append(relativizedUrl).append("')");
             previousIndex = m.end();
