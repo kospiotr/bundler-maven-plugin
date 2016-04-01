@@ -13,40 +13,29 @@ public class PathNormalizator {
      * where style bundle process to project/src/resources/static/resources/app.min.css (resources/app.min.css in index-prod.html)<br/>
      * so resources must still point to project/src/resources/static/lib/image.png (../lib/image.png)<br/>
      *
-     * @param sourceBase
-     * @param resource
-     * @return
+     * @param absoluteResourcePath - resource absolute path
+     * @param absoluteTargetCssPath - target css absolute path
+     * @return - relative path from target css file to source resource
      */
-    public String relativize(String sourceBase, String sourceCss, String resource, String targetBase, String targetCss) {
-        Path baseBeforePath = FileSystems.getDefault().getPath(sourceBase);
-//        System.out.println("baseBeforePath = \t\t" + baseBeforePath);
+    public String relativize(Path absoluteResourcePath, Path absoluteTargetCssPath) {
+        Path absoluteTargetCssParentPath = absoluteTargetCssPath.getParent();
+        return absoluteTargetCssParentPath.relativize(absoluteResourcePath).toString();
+    }
 
-        Path absoluteBeforePath = baseBeforePath.toAbsolutePath();
-//        System.out.println("absoluteBeforePath = \t" + absoluteBeforePath);
+    public Path getAbsoluteResourcePath(String sourceBasePath, String sourceCssPath, String resourcePath){
+        Path absoluteBasePath = FileSystems.getDefault().getPath(sourceBasePath).toAbsolutePath();
+        Path absoluteSourceCssPath = absoluteBasePath.getParent().resolve(sourceCssPath);
+        Path absoluteParentSourceCssPath = absoluteSourceCssPath.getParent();
+        Path absoluteResourcePath = absoluteParentSourceCssPath.resolve(resourcePath);
+        return absoluteResourcePath.normalize();
+    }
 
-        Path absoluteBeforeParentPath = absoluteBeforePath.getParent();
-//        System.out.println("absoluteBeforePath = \t" + absoluteBeforeParentPath);
+    public Path getAbsoluteTargetCssPath(String targetBasePath, String targetCss){
+        Path absoluteTargetBasePath = FileSystems.getDefault().getPath(targetBasePath).toAbsolutePath();
+        Path absoluteAfterPath = absoluteTargetBasePath.getParent();
+        Path absoluteTargetCssPath = absoluteAfterPath.resolve(targetCss);
+        return absoluteTargetCssPath.normalize();
 
-        Path urlPath = absoluteBeforeParentPath.resolve(sourceCss);
-//        System.out.println("urlPath = \t\t\t\t" + urlPath);
-
-        Path parentFullUrlPath = urlPath.getParent();
-//        System.out.println("parentFullUrlPath = \t" + parentFullUrlPath);
-
-        Path fullCurrentFilePath = parentFullUrlPath.resolve(resource);
-//        System.out.println("fullCurrentFilePath = \t" + fullCurrentFilePath);
-
-        Path absoluteAfterPath = FileSystems.getDefault().getPath(targetBase).toAbsolutePath().getParent().normalize();
-//        System.out.println("absoluteAfterPath = \t" + absoluteAfterPath);
-
-        Path targetCssDirPath = absoluteAfterPath.resolve(targetCss).normalize().getParent();
-
-        Path relativize = targetCssDirPath.relativize(fullCurrentFilePath);
-//        System.out.println("relativize = \t\t\t" + relativize);
-
-        Path normalized = relativize.normalize();
-//        System.out.println("normalized = \t\t\t" + normalized);
-        return normalized.toString();
     }
 
 }

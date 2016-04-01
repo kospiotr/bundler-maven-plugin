@@ -1,5 +1,6 @@
 package com.github.kospiotr.bundler;
 
+import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,17 +56,24 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
         while (m.find(previousIndex)) {
             String resourcePath = m.group(1);
             sb.append(content.substring(previousIndex, m.start()));
-            String relativizedUrl = isUrlAbsolute(resourcePath) ?
-                    resourcePath :
-                    pathNormalizator.relativize(
-                            getMojo().getInputFilePah().getAbsolutePath(), sourceCssPath, resourcePath,
-                            getMojo().getOutputFilePath().getAbsolutePath(), targetCssPath
-                    );
-            sb.append("url('").append(relativizedUrl).append("')");
+            String relativizedResourcePathUrl = relativizeResourcePath(targetCssPath, sourceCssPath, resourcePath);
+            sb.append("url('").append(relativizedResourcePathUrl).append("')");
             previousIndex = m.end();
         }
         sb.append(content.substring(previousIndex, content.length()));
         return sb.toString();
+    }
+
+    private String relativizeResourcePath(String targetCssPath, String sourceCssPath, String resourcePath) {
+        if(isUrlAbsolute(resourcePath)){
+            return resourcePath;
+        }else {
+            Path absoluteResourcePath = pathNormalizator.getAbsoluteResourcePath(getMojo().getInputFilePah().getAbsolutePath(),
+                    sourceCssPath, resourcePath);
+            Path absoluteTargetCssPath = pathNormalizator.getAbsoluteTargetCssPath(getMojo().getOutputFilePath().getAbsolutePath(),
+                    targetCssPath);
+            return pathNormalizator.relativize(absoluteResourcePath, absoluteTargetCssPath);
+        }
     }
 
     private boolean isUrlAbsolute(String url) {
