@@ -32,7 +32,7 @@ public abstract class RegexBasedTagProcessor extends TagProcessor {
         Path parentSrcPath = getMojo().getInputFilePah().getAbsoluteFile().toPath().getParent();
         String tagContent = tag.getContent();
 
-        String content = processTags(parentSrcPath, tagContent);
+        String content = processTags(fileName, parentSrcPath, tagContent);
         content = postProcessOutputFileContent(content);
 
         Path parentDestPath = getMojo().getOutputFilePath().getAbsoluteFile().toPath().getParent();
@@ -68,7 +68,7 @@ public abstract class RegexBasedTagProcessor extends TagProcessor {
         return fileName;
     }
 
-    private String processTags(Path parentSrcPath, String tagContent) {
+    private String processTags(String fileName, Path parentSrcPath, String tagContent) {
         StringBuilder concatContent = new StringBuilder();
         Pattern tagPattern = Pattern.compile(tagRegex(), Pattern.DOTALL);
         Matcher m = tagPattern.matcher(tagContent);
@@ -76,9 +76,14 @@ public abstract class RegexBasedTagProcessor extends TagProcessor {
             String src = m.group(1);
             Path tagSrcPath = parentSrcPath.resolve(src);
             String scrContent = resourceAccess.read(tagSrcPath);
+            scrContent = preprocessTagContent(fileName, scrContent, src);
             concatContent.append(scrContent).append("\n");
         }
         return concatContent.toString();
+    }
+
+    protected String preprocessTagContent(String fileName, String srcContent, String src) {
+        return srcContent;
     }
 
     private String computeHash(String content) {
