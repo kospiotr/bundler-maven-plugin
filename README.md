@@ -1,4 +1,7 @@
+
 # bundler-maven-plugin
+
+[![Build Status](https://travis-ci.org/kospiotr/bundler-maven-plugin.svg?branch=master)](https://travis-ci.org/kospiotr/bundler-maven-plugin)
 
 Maven plugin for creating bundle package of js and css files in Maven project.
 
