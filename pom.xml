@@ -3,7 +3,7 @@
 
     <groupId>com.github.kospiotr</groupId>
     <artifactId>bundler-maven-plugin</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>1.8-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>bundler-maven-plugin</name>
