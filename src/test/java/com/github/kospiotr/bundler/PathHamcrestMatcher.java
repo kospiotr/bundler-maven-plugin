@@ -18,7 +18,7 @@ public class PathHamcrestMatcher extends ArgumentMatcher<Path> {
     @Override
     public boolean matches(Object actual) {
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher(matcher);
-        return pathMatcher.matches((Path) actual);
+        return actual != null && pathMatcher.matches((Path) actual);
     }
 
     @Override
