@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 public class CssTagProcessor extends RegexBasedTagProcessor {
 
     private static final String TAG_REGEX = "\\Q<link\\E.*?href\\=\"(.*?)\".*?\\>";
-    private ResourceOptimizer resourceOptimizer = new ResourceOptimizer();
     private PathNormalizator pathNormalizator = new PathNormalizator();
 
     @Override
@@ -34,11 +33,6 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
     @Override
     public String createBundledTag(String fileName) {
         return "<link rel=\"stylesheet\" href=\"" + fileName + "\" />";
-    }
-
-    @Override
-    protected String postProcessOutputFileContent(String content) {
-        return resourceOptimizer.optimizeCss(content);
     }
 
     @Override
@@ -65,9 +59,9 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
     }
 
     private String relativizeResourcePath(String targetCssPath, String sourceCssPath, String resourcePath) {
-        if(isUrlAbsolute(resourcePath)){
+        if (isUrlAbsolute(resourcePath)) {
             return resourcePath;
-        }else {
+        } else {
             Path absoluteResourcePath = pathNormalizator.getAbsoluteResourcePath(getMojo().getInputFilePah().getAbsolutePath(),
                     sourceCssPath, resourcePath);
             Path absoluteTargetCssPath = pathNormalizator.getAbsoluteTargetCssPath(getMojo().getOutputFilePath().getAbsolutePath(),
