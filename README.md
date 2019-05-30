@@ -15,11 +15,12 @@ Inspired by: https://github.com/dciccale/grunt-processhtml
 #Configuration properties
 - inputFilePah
 - outputFilePath
-- hashingAlgorithm
+- hashingAlgorithm - `MD5, SHA-1, SHA-256`
 - munge
 - verbose
 - preserveAllSemiColons
 - disableOptimizations
+- preserveCssPaths
 
 # Usage
 
@@ -29,7 +30,7 @@ Configure plugin:
       <plugin>
         <groupId>com.github.kospiotr</groupId>
         <artifactId>bundler-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>1.9</version>
         <executions>
           <execution>
             <id>js</id>
@@ -39,6 +40,8 @@ Configure plugin:
             <configuration>
               <inputFilePah>${project.basedir}/src/main/resources/index-dev.html</inputFilePah>
               <outputFilePath>${project.build.outputDirectory}/index.html</outputFilePath>
+              <preserveCssPaths>true</preserveCssPaths>
+              <hashingAlgorithm>MD5</hashingAlgorithm>
             </configuration>
           </execution>
         </executions>

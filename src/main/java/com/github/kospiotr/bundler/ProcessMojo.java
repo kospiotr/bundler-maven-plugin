@@ -47,6 +47,9 @@ public class ProcessMojo extends AbstractMojo {
     @Parameter(defaultValue = "true", property = "disableOptimizations", required = true)
     boolean disableOptimizations;
 
+    @Parameter(defaultValue = "false", property = "preserveCssPaths", required = true)
+    boolean preserveCssPaths;
+
     public ProcessMojo() {
     }
 
@@ -92,5 +95,9 @@ public class ProcessMojo extends AbstractMojo {
 
     public boolean isDisableOptimizations() {
         return disableOptimizations;
+    }
+
+    public boolean preserveCssPaths() {
+        return preserveCssPaths;
     }
 }

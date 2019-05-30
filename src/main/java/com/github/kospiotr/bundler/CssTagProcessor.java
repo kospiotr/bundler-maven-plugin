@@ -59,6 +59,9 @@ public class CssTagProcessor extends RegexBasedTagProcessor {
     }
 
     private String relativizeResourcePath(String targetCssPath, String sourceCssPath, String resourcePath) {
+        if (getMojo().preserveCssPaths()) {
+            return resourcePath;
+        }
         if (isUrlAbsolute(resourcePath)) {
             return resourcePath;
         } else {
